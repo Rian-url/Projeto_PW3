@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@500&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Urbanist', sans-serif;
+    background-color: #f0fff3;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container h2{
+ font-size: 40px;
+ margin-top: 3%;
+} 
+
+.login{
+    width: 450px;
+    height:500px;
+    background-color: #637566;
+    border-radius: 10px;
+
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 200px;
+}
+
+.form img{
+    position: absolute;
+    margin-bottom: 23%;
+}
+.form input{
+    width: 250px;
+    height: 30px;
+}
+
+.form .inputs{
+    border-radius: 5px;
+    border-top: none;
+    border-left: solid 3.5px #464439;
+    border-right: none;
+    border-width: 3.5px;
+    border-color: #464439;
+}
+
+.form .logar{
+    background-color: #97af9b;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+}
+
+.form .logar:hover{
+    cursor: pointer;
+    background-color: #bde2c3;
+}
+
+.login .icon_user {
+   position: absolute;
+   margin-right: 295px;
+   margin-bottom: 75px; 
+}
+
+.login .icon_password {
+    position: absolute;
+    margin-right: 295px;
+    margin-top: 20px;
+}
+   
+
