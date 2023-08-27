@@ -2,11 +2,11 @@
 $servername = "localhost:3306";
 $username = "root";
 $password = "root";
-$dbname = "sistema";
+$dbname = "bd_sistema";
 
 try{
 $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password); 
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PSO::ERRMODE_EXCEPTION);
+  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   
   $sql = "create table tb_usuario(
   cd_usuario int PRIMARY KEY AUTO_INCREMENT,
@@ -16,8 +16,8 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
 
   $conn->exec($sql);
   echo "Tabela Usuario criado com sucesso";
-} catch(PDOEException $e) {
-  echo $sql . "<br>" . $e->getMessafe();
+} catch(PDOException $e) {
+  echo $sql . "<br>" . $e->getMessage();
 }
 $conn = null;
 

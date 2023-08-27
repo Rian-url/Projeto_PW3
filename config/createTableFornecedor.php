@@ -2,11 +2,11 @@
 $servername = "localhost:3306";
 $username = "root";
 $password = "root";
-$dbname = "sistema";
+$dbname = "bd_sistema";
 
 try{
 $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password); 
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PSO::ERRMODE_EXCEPTION);
+  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   
   $sql = "create table tb_fornecedor(
   cd_fornecedor int PRIMARY KEY AUTO_INCREMENT,
@@ -20,12 +20,13 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
   nr_logradouro varchar (4) not null,
   nm_bairro varchar (35) not null,
   tl_fornecedor  varchar(9) not null,
-  nm_email varchar (40) not null);";
+  nm_email varchar (40) not null,
+  img_fornecedor (100) );";
 
   $conn->exec($sql);
   echo "Tabela Fornecedor criado com sucesso";
-} catch(PDOEException $e) {
-  echo $sql . "<br>" . $e->getMessafe();
+} catch(PDOException $e) {
+  echo $sql . "<br>" . $e->getMessage();
 }
 $conn = null;
 

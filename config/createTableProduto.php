@@ -6,7 +6,7 @@ $dbname = "sistema";
 
 try{
 $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password); 
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PSO::ERRMODE_EXCEPTION);
+  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   
   $sql = "create table tb_produto(
   cd_produto int PRIMARY KEY AUTO_INCREMENT,
@@ -21,8 +21,8 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
 
   $conn->exec($sql);
   echo "Tabela Produto criado com sucesso";
-} catch(PDOEException $e) {
-  echo $sql . "<br>" . $e->getMessafe();
+} catch(PDOException $e) {
+  echo $sql . "<br>" . $e->getMessage();
 }
 $conn = null;
 
