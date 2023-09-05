@@ -16,7 +16,31 @@
 			<div class="col-6">
           <h1 class="text-center bg-success text-white">CONSULTA FORNECEDOR</h1>
 					<?php
-              echo nl2br(file_get_contents("cadastros\Fornecedor.txt"));
+             include_once('conexao.php');
+             try 
+             {	   
+               $select = $conn->prepare('SELECT * FROM tb_fornecedor');
+               $select->execute();
+               
+               while($row = $select->fetch()) 
+               {		
+                 echo "<p>";
+                 echo "<br><img src='".$row['img_fornecedor ']."' width=80px>";
+                 echo "<br><b>Codigo: </b>".$row['cd_fornecedor'];
+                 echo "<br><b>Nome: </b>".$row[' nm_fornecedor '];
+                 echo "<br><b>CNPJ: </b>".$row['cnpj_fornecedor '];
+                 echo "<br><b>RG: </b>".$row['rg_fornecedor'];
+                 echo "<br><b>CEP: </b>".$row['cep_fornecedor '];
+                 echo "<br><b>Celular: </b>".$row['tl_fornecedor'];
+                 echo "<br><b>Email: </b>".$row[' nm_email '];
+                 echo "<hr>";
+               }
+             } 
+             catch(PDOException $e) 
+             {
+               echo 'ERROR: ' . $e->getMessage();
+             }
+            ?>
           ?>
 			</div>
 			<div class="col"></div>

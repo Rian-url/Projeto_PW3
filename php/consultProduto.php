@@ -16,7 +16,31 @@
 			<div class="col-6">
           <h1 class="text-center bg-success text-white">CONSULTA PRODUTO</h1>
 					<?php
-              echo nl2br(file_get_contents("cadastros\produto.txt"));
+             include_once('conexao.php');
+             try 
+             {	   
+               $select = $conn->prepare('SELECT * FROM tb_produto');
+               $select->execute();
+               
+               while($row = $select->fetch()) 
+               {		
+                 echo "<p>";
+                 echo "<br><img src='".$row['img_produto']."' width=80px>";
+                 echo "<br><b>Codigo: </b>".$row['cd_produto'];
+                 echo "<br><b>Nome: </b>".$row['nm_produto'];
+                 echo "<br><b>Cor: </b>".$row['nm_cor'];
+                 echo "<br><b>Peso: </b>".$row['vl_peso'];
+                 echo "<br><b>Material: </b>".$row['nm_material'];
+                 echo "<br><b>Descrição: </b>".$row['ds_produto'];
+                 echo "<br><b>Valor: </b>".$row['vl_produto '];
+                 echo "<br><b>Custo: </b>".$row['vl_custo '];
+                 echo "<hr>";
+               }
+             } 
+             catch(PDOException $e) 
+             {
+               echo 'ERROR: ' . $e->getMessage();
+             }
           ?>
 			</div>
 			<div class="col"></div>

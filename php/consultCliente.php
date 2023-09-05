@@ -16,7 +16,31 @@
 			<div class="col-6">
           <h1 class="text-center bg-success text-white">CONSULTA CLIENTE</h1>
 					<?php
-              echo nl2br(file_get_contents("cadastros\cliente.txt"));
+             include_once('conexao.php');
+             try 
+             {	   
+               $select = $conn->prepare('SELECT * FROM tb_cliente');
+               $select->execute();
+               
+               while($row = $select->fetch()) 
+               {		
+                 echo "<p>";
+                 echo "<br><img src='".$row['img_cliente']."' width=80px>";
+                 echo "<br><b>Codigo: </b>".$row['cd_cliente'];
+                 echo "<br><b>Nome: </b>".$row['nm_cliente'];
+                 echo "<br><b>CPF: </b>".$row['cpf_cliente'];
+                 echo "<br><b>RG: </b>".$row['rg_cliente '];
+                 echo "<br><b>CEP: </b>".$row['cep_cliente'];
+                 echo "<br><b>Celular: </b>".$row['tl_cliente'];
+                 echo "<br><b>Email: </b>".$row['nm_email '];
+                 echo "<hr>";
+               }
+             } 
+             catch(PDOException $e) 
+             {
+               echo 'ERROR: ' . $e->getMessage();
+             }
+            ?>
           ?>
 			</div>
 			<div class="col"></div>
