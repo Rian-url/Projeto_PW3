@@ -14,33 +14,33 @@
 		<div class="row">
 			<div class="col"></div>
 			<div class="col-6">
-          <h1 class="text-center bg-success text-white">CONSULTA FUNCIONARIO</h1>
+          <h1 class="text-center bg-success text-white">CONSULTAR FUNCIONÁRIOS</h1>
 					<?php
-             include_once('conexao.php');
-             try 
-             {	   
-               $select = $conn->prepare('SELECT * FROM tb_funcionario');
-               $select->execute();
-               
-               while($row = $select->fetch()) 
-               {		
-                 echo "<p>";
-                 echo "<br><img src='".$row['img_funcionario ']."' width=80px>";
-                 echo "<br><b>Codigo: </b>".$row['cd_funcionario'];
-                 echo "<br><b>Nome: </b>".$row[' nm_funcionario '];
-                 echo "<br><b>Cargo: </b>".$row['nm_cargo'];
-                 echo "<br><b>CPF: </b>".$row['cpf_funcionario '];
-                 echo "<br><b>RG: </b>".$row['rg_funcionario'];
-                 echo "<br><b>CEP: </b>".$row['cep_funcionario '];
-                 echo "<br><b>Celular: </b>".$row['tl_funcionario'];
-                 echo "<br><b>Email: </b>".$row[' nm_email '];
-                 echo "<hr>";
+               include_once('../conexao.php');
+               try 
+               {	   
+                 $select = $conn->prepare('SELECT * FROM tb_funcionario');
+                 $select->execute();
+                 
+                 while($row = $select->fetch()) 
+                 {		
+                   echo "<p>";
+                   echo "<br><img src='".$row['img_funcionario']."' width=80px>";
+                   echo "<br><b>Código: </b>".$row['cd_funcionario'];
+                   echo "<br><b>Nome: </b>".$row['nm_funcionario'];
+                   echo "<br><b>Cargo: </b>".$row['nm_cargo'];
+                   echo "<br><b>CPF: </b>".$row['cpf_funcionario'];
+                   echo "<br><b>RG: </b>".$row['rg_funcionario'];
+                   echo "<br><b>CEP: </b>".$row['cep_funcionario'];
+                   echo "<br><b>Celular: </b>".$row['tl_funcionario'];
+                   echo "<br><b>Email: </b>".$row['nm_email'];
+                   echo "<hr>";
+                 }
+               } 
+               catch(PDOException $e) 
+               {
+                 echo 'ERROR: ' . $e->getMessage();
                }
-             } 
-             catch(PDOException $e) 
-             {
-               echo 'ERROR: ' . $e->getMessage();
-             }
           ?>
 			</div>
 			<div class="col"></div>

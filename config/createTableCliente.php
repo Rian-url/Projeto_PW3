@@ -1,7 +1,11 @@
 <?php
 $servername = "localhost:3306";
 $username = "root";
-$password = "root";
+// $password = "root";
+
+// meu servidor
+$password = "tubas1234";
+
 $dbname = "bd_sistema";
 
 try{
@@ -19,7 +23,7 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
   nm_rua varchar (35) not null,
   nr_logradouro varchar (4) not null,
   nm_bairro varchar (35) not null,
-  tl_cliente varchar(9) not null,
+  tl_cliente varchar(11) not null,
   nm_email varchar (40) not null,
   img_cliente varchar (100)
   );";

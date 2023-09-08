@@ -3,13 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CADASTRO DE FUNCIONARIOS</title>
+    <title>CADASTRAR DE FUNCIONÁRIOS</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/style.css">
 
-    <script type="text/javascript" src="/js/cep.js"></script>
+    <script type="text/javascript" src="/js/buscaCEP.js"></script>
    <script type="text/javascript" src="/js/validaCPF.js"></script>
     
 
@@ -42,7 +41,7 @@
 
 <section class="container">
   
-<label class="page-title">CADASTRO FUNCIONARIO</label>
+<label class="page-title">CADASTRAR FUNCIONÁRIO</label>
   
   <div class="cad">
    <form method="POST" class="form">
@@ -52,7 +51,7 @@
     <input type="text" class="form-value" id="cargo" name="cargo"> <br>
     <label class="title"> Documentos </label> <br>
     <label class="form-label">CPF:</label>
-    <input type="number" class="form-value" id="cpf" name="cpf" onblur="validarCPF(this.value)" >
+    <input type="number" class="form-value" id="cpf" name="cpf" onblur="TestaCPF(this.value)" >
     <label class="form-label">RG:</label>
     <input type="number" class="form-value" id="rg" name="rg"> <br>
     <label class="title"> Endereço residencial  </label> <br>
@@ -91,48 +90,65 @@
 <?php 
 
 if(!empty($_POST)) {
-  $funcionario = array(
-    $_POST['nome'],
-    $_POST['cargo'],
-    $_POST['cpf'],
-    $_POST['rg'],
-    $_POST['cep'],
-    $_POST['rua'],
-    $_POST['num'],
-    $_POST['bairro'],
-    $_POST['cidade'],
-    $_POST['estado'],
-    $_POST['celular'],
-    $_POST['email']
-  );
+   $nome = $_POST['nome'];
+   $cargo = $_POST['cargo'];
+   $cpf = $_POST['cpf'];
+   $rg = $_POST['rg'];
+   $cep = $_POST['cep'];
+   $rua = $_POST['rua'];
+   $num = $_POST['num'];
+   $bairro = $_POST['bairro'];
+   $cidade = $_POST['cidade'];
+   $uf = $_POST['estado'];
+   $tel = $_POST['celular'];
+   $email = $_POST['email'];
 
-  for($i = 0; $i < count($funcionario); $i++){
-     echo "<br>" .$funcionario[$i];
-  }
-
-  $caminho = "cadastros\Funcionarios.txt";
-
-  $valuesCad = "Funcionario: $funcionario[0], $funcionario[1], $funcionario[2], $funcionario[3], $funcionario[4], $funcionario[5], $funcionario[6], $funcionario[7], 
-  $funcionario[8], $funcionario[9] \n";
-
-  if(file_put_contents($caminho, $valuesCad, FILE_APPEND)) {
-    echo"<script> alert('Dados cadastrado com sucesso');</script>";
-  } else {
-    echo"<script> alert('Erro ao cadastrar!');</script>";
-  }
+  $imagem = $_FILES['imageFuncionario'];
+  $dir = "/imgs/funcionarios/";
+   
+  date_default_timezone_set('America/Sao_Paulo');
+   
+  $extensao = strtolower(substr($imagem['name'], -4));
+   
+  $new_name = date("Y.m.d-H.i.s") . $extensao;
+   
+  move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
+   
+ $caminhoIMG = $dir.$new_name;
+   
+ include_once('../conexao.php');
+   
+     try {
+       
+       $stmt = $conn->prepare("INSERT INTO tb_funcionario (nm_funcionario, nm_cargo, cpf_funcionario, rg_funcionario, cep_funcionario, nm_cidade, nm_estado, nm_rua, nr_logradouro, nm_bairro, tl_funcionario, nm_email, img_funcionario)
+                             VALUES (:nome, :cargo, :cpf, :rg, :cep, :cidade, :uf, :rua, :num, :bairro, :celular, :email, :imagem)");
+   
+       $stmt->bindParam(':nome', $nome);
+       $stmt->bindParam(':cargo', $cargo);
+       $stmt->bindParam(':cpf', $cpf);
+       $stmt->bindParam(':rg', $rg);
+       $stmt->bindParam(':cep', $cep);
+       $stmt->bindParam(':cidade', $cidade);
+       $stmt->bindParam(':uf', $uf);
+       $stmt->bindParam(':rua', $rua);
+       $stmt->bindParam(':num', $num);
+       $stmt->bindParam('bairro', $bairro);
+       $stmt->bindParam(':celular', $tel);
+       $stmt->bindParam(':email', $email);
+       $stmt->bindParam(':imagem', $caminhoIMG);
+       
+       $stmt->execute();
+   
+       echo "<script>alert('Cadastrado no banco de dados com Sucesso');</script>";
+   
+     } catch(PDOException $e) {
+       echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
+     }
+     $conn = null;
+   
+   
 
 }
-
-$imagem = $_FILES['imageFuncionario'];
-$dir = "imgs/funcionarios/";
-
-date_default_timezone_set('America/Sao_Paulo');
-
-$extensao = strtolower(substr($imagem['name'], -4));
-
-$new_name = date("Y.m.d-H.i.s") . $extensao;
-
-move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
 
 
 ?> 

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CADASTRO DE USUARIO</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/usuario.css">
@@ -42,7 +41,7 @@
 
 <section class="container">
   
-<label class="page-title">CADASTRO USUARIO</label>
+<label class="page-title">CADASTRAR USUÁRIO</label>
   
   <div class="cad">
    <form method="POST" class="form">
@@ -58,6 +57,7 @@
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
     <input type="submit" value="Cadastrar" class="btn2"> <br>
+    <a href="consultUsuario.php"><input type="button" value="Consultar" class="btn3"></a>
     </div>
    </form>
     
@@ -69,38 +69,47 @@
 <?php 
 
 if(!empty($_POST)) {
-  $usuario = array(
-    $_POST['nome'],
-    $_POST['email'],
-    $_POST['senha']
-  );
 
-  for($i = 0; $i < count($usuario); $i++){
-     echo "<br>" .$usuario[$i];
-  }
+   $nome = $_POST['nome'];
+   $email = $_POST['email'];
+   $senha = $_POST['senha'];
 
-  $caminho = "cadastros\usuario.txt";
+  $imagem = $_FILES['imageUser'];
+  $dir = "imgs/usuarios/";
 
-  $valuesCad = "Usuario: $usuario[0], $usuario[1], $usuario[2] \n";
+  date_default_timezone_set('America/Sao_Paulo');
 
-  if(file_put_contents($caminho, $valuesCad, FILE_APPEND)) {
-    echo"<script> alert('Dados cadastrado com sucesso');</script>";
-  } else {
-    echo"<script> alert('Erro ao cadastrar!');</script>";
-  }
+  $extensao = strtolower(substr($imagem['name'], -4));
+
+  $new_name = date("Y.m.d-H.i.s") . $extensao;
+
+  move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
+
+  $caminhoIMG = $dir.$new_name;
+
+  include_once('../conexao.php');
+
+ try {
+    
+  $stmt = $conn->prepare("INSERT INTO tb_usuario ( nm_usuario, nm_email, nm_senha, img_usuario)
+                                          VALUES (:nome, :email, :senha, :imagem);");
+
+  $stmt->bindParam(':nome', $nome);
+  $stmt->bindParam(':email', $email);
+  $stmt->bindParam(':senha', $senha);
+  $stmt->bindParam(':imagem', $caminhoIMG);
+  
+  $stmt->execute();
+
+  echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";
+
+} catch(PDOException $e) {
+  echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
+}
+
 
 }
 
-$imagem = $_FILES['imageUser'];
-$dir = "imgs/usuarios/";
-
-date_default_timezone_set('America/Sao_Paulo');
-
-$extensao = strtolower(substr($imagem['name'], -4));
-
-$new_name = date("Y.m.d-H.i.s") . $extensao;
-
-move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
 
 
 ?> 

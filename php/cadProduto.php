@@ -41,7 +41,7 @@
 
 <section class="container">
   
-<label class="page-title">CADASTRO PRODUTO</label>
+<label class="page-title">CADASTRAR PRODUTO</label>
   
   <div class="cad">
    <form method="POST" class="form">
@@ -51,19 +51,19 @@
     <label class="form-label">COR:</label>
     <input type="text" class="form-value" id="cor" name="cor" >
     <label class="form-label">PESO:</label>
-    <input type="number" class="form-value" id="peso" name="peso"> <br>
+    <input type="decimal" class="form-value" id="peso" name="peso"> <br>
     <label class="form-label">MATERIAL:</label>
     <input type="text" class="form-value" id="material" name="material">
     <label class="form-label">QUANTIDADE:</label>
     <input type="number" class="form-value" id="quantidade" name="quantidade"> <br>
-    <label class="form-label">TIPO DE PRODUTO:</label>
+    <label class="form-label">CATEGORIA:</label>
     <input type="text" class="form-value" id="tipo" name="tipo">
      <label class="form-label">FORNECEDOR:</label>
     <input type="text" class="form-value" id="fornecedor" name="fornecedor"> <br>
     <label class="form-label">PREÇO:</label>
-    <input type="number" step="0.010" class="form-value" id="preco" name="preco">
+    <input type="decimal" step="0.010" class="form-value" id="preco" name="preco">
     <label class="form-label">CUSTO:</label>
-    <input type="number" step="0.010" class="form-value" id="custo" name="custo"> <br>
+    <input type="decimal" step="0.010" class="form-value" id="custo" name="custo"> <br>
     <label class="form-label">FOTO:</label>
     <input type="file" accept="image/*" class="form-value" id="image" name="imageProduto"><br>
 
@@ -82,42 +82,53 @@
 <?php 
 
 if(!empty($_POST)) {
-  $produto = array(
-    $_POST['nome'],
-    $_POST['cor'],
-    $_POST['peso'],
-    $_POST['material'],
-    $_POST['quantidade'],
-    $_POST['tipo'],
-    $_POST['fornecedor'],
-    $_POST['preco'],
-    $_POST['custo'],
-  );
 
-  for($i = 0; $i < count($produto); $i++){
-     echo "<br>" .$produto[$i];
-  }
+   $nome = $_POST['nome'];
+   $cor = $_POST['cor'];
+   $peso = $_POST['peso'];
+   $material = $_POST['material'];
+   $quantidade = $_POST['quantidade'];
+   $tipo = $_POST['tipo'];
+   $fornecedor = $_POST['fornecedor'];
+   $preco = $_POST['preco'];
+   $custo = $_POST['custo'];
 
-  $caminho = "cadastros\Produto.txt";
+ $image = $_FILES['imageProduto'];
+ $dir = "/imgs/produtos/";
 
-  $valuesCad = "Produto: $produto[0], $produto[1], $produto[2], $produto[3], $produto[4], $produto[5], $produto[6], $produto[7], $produto[8] \n";
+ date_default_timezone_set('America/Sao_Paulo');
 
-  if(file_put_contents($caminho, $valuesCad, FILE_APPEND)) {
-    echo"<script> alert('Dados cadastrado com sucesso');</script>";
-  } else {
-    echo"<script> alert('Erro ao cadastrar!');</script>";
-  }
+ $extensao = strtolower(substr($image['name'], -4));
 
-$image = $_FILES['imageProduto'];
-$dir = "imgs/produtos/";
+ $new_name = date("Y.m.d-H.i.s") . $extensao;
 
-date_default_timezone_set('America/Sao_Paulo');
+ move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
 
-$extensao = strtolower(substr($image['name'], -4));
+include_once('../conexao.php');
 
-$new_name = date("Y.m.d-H.i.s") . $extensao;
+try {
+  
+  $stmt = $conn->prepare("INSERT INTO tb_produto (nm_produto, nm_cor, vl_peso, nm_material, nr_quantidade, nm_categoria, vl_produto, vl_custo, img_produto)
+                         VALUES (:nome, :cor, :peso, :material, :quantidade, :tipo, :preco, :custo, :imagem)");
 
-move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
+  $stmt->bindParam(':nome', $nome);
+  $stmt->bindParam(':cor', $cor);
+  $stmt->bindParam(':peso', $peso);
+  $stmt->bindParam(':material', $material);
+  $stmt->bindParam(':quantidade', $quantidade);
+  $stmt->bindParam(':tipo', $tipo);
+  $stmt->bindParam(':preco', $preco);
+  $stmt->bindParam(':custo', $custo);
+  $stmt->bindParam(':imagem', $caminhoIMG);
+  
+  $stmt->execute();
+
+  echo "<script>alert('Cadastrado no banco de dados com Sucesso');</script>";
+
+} catch(PDOException $e) {
+  echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
+}
+$conn = null;
 }
 
 

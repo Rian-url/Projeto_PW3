@@ -10,7 +10,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style/login.css">
+    <link rel="stylesheet" href="css/login.css">
     <title>Login</title>
 </head>
 <body>
@@ -19,7 +19,7 @@ session_start();
         <h2>Seja Bem Vindo(a)</h2>
      <div class="login">
       <form method="POST" class="form"> 
-        <img src="./img/user.png" alt="user_image" width="250" height="120">
+        <img src="./imgs/user.png" alt="user_image" width="245" height="120">
         <br>
 
         <i class="fa-solid fa-user-tie fa-xl icon_user" style="color: #000;" ></i> <input type="email" name="email" id="email" placeholder="Email" class="inputs" required> <br>

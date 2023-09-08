@@ -6,12 +6,11 @@
     <title>CADASTRO DE CLIENTE</title>
     
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/menu.css">
 
      
-   <script type="text/javascript" src="/js/cep.js"></script>
+   <script type="text/javascript" src="/js/buscaCEP.js"></script>
    <script type="text/javascript" src="/js/validaCPF.js"></script>
 
   </head>
@@ -51,7 +50,7 @@
     <input type="text" class="form-value" id="nome" name="nome"> <br>
     <label class="title"> Documentos </label> <br>
     <label class="form-label">CPF:</label>
-    <input type="number" class="form-value" id="cpf" name="cpf" onblur="validarCPF(this.value)" >
+    <input type="number" class="form-value" id="cpf" name="cpf" onblur="TestaCPF(this.value)" >
     <label class="form-label">RG:</label>
     <input type="number" class="form-value" id="rg" name="rg"> <br>
     <label class="title"> Endereço residencial </label> <br>
@@ -90,61 +89,51 @@
 <?php 
 
 if(!empty($_POST)) {
-  $cliente = array(
-    $_POST['nome'],
-    $_POST['cpf'],
-    $_POST['rg'],
-    $_POST['cep'],
-    $_POST['rua'],
-    $_POST['num'],
-    $_POST['bairro'],
-    $_POST['cidade'],
-    $_POST['estado'],
-    $_POST['celular'],
-    $_POST['email']
-  );
 
-  for($i = 0; $i < count($cliente); $i++){
+   $nome = $_POST['nome'];
+   $cpf = $_POST['cpf'];
+   $rg = $_POST['rg'];
+   $cep = $_POST['cep'];
+   $cidade = $_POST['cidade'];
+   $uf = $_POST['estado'];
+   $rua = $_POST['rua'];
+   $num = $_POST['num'];
+   $bairro = $_POST['bairro'];
+   $tel = $_POST['celular'];
+   $email = $_POST['email'];
+
+
+  $imagem = $_FILES['imageCliente'];
+  $dir = "/imgs/clientes/";
+
+  date_default_timezone_set('America/Sao_Paulo');
+
+  $extensao = strtolower(substr($imagem['name'], -4));
+
+  $new_name = date("Y.m.d-H.i.s") .$extensao;
+
+  move_uploaded_file($image['tmp_name'], $dir.$new_name);
+
+  $caminhoIMG = $dir.$new_name;
+
+  include_once('../conexao.php');
+
+ try {
     
-  }
+  $stmt = $conn->prepare("INSERT INTO tb_cliente ( nm_cliente, cpf_cliente, rg_cliente, cep_cliente, nm_cidade, nm_estado, nm_rua, nr_logradouro, nm_bairro, tl_cliente, nm_email, img_cliente)
+                                          VALUES (:nome, :cpf, :rg, :cep, :cidade, :uf, :rua, :num, :bairro, :celular, :email, :imagem);");
 
-  $caminho = "cadastros/cliente.txt";
-
-  $valuesCad = "Cliente: $cliente[0], $cliente[1], $cliente[2], $cliente[3], $cliente[4], $cliente[5], $cliente[6], $cliente[7], 
-  $cliente[8], $cliente[9]";
-
-  if(file_put_contents($caminho, $valuesCad, FILE_APPEND)) {
-    echo"<script> alert('Dados cadastrado com sucesso');</script>";
-  } else {
-    echo"<script> alert('Erro ao cadastrar!');</script>";
-  }
-  
-$image = $_FILES['imageCliente'];
-$dir = "imgs/clientes/";
-
-date_default_timezone_set('America/Sao_Paulo');
-
-$extensao = strtolower(substr($image['name'], -4));
-
-$new_name = date("Y.m.d-H.i.s") . $extensao;
-
-move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
-
-$caminhoIMG = $dir.$new_name;
-
-include_once('conexao.php');
-
-try {
-    
-  $stmt = $conn->prepare("INSERT INTO tb_cliente (cd_cliente, nm_cliente, cpf_cliente, rg_cliente, cep_cliente, nr_logradouro, tl_cliente, nm_email, img_cliente)VALUES (null, :nome, :cpf, :rg, :cep, :num, :celular, :email, :imagem)");
-
-  $stmt->bindParam(':nome', $cliente[0]);
-  $stmt->bindParam(':cpf', $cliente[1]);
-  $stmt->bindParam(':rg', $cliente[2]);
-  $stmt->bindParam(':cep', $cliente[3]);
-  $stmt->bindParam(':numero', $cliente[5]);
-  $stmt->bindParam(':celular', $cliente[9]);
-  $stmt->bindParam(':email', $cliente[10]);
+  $stmt->bindParam(':nome', $nome);
+  $stmt->bindParam(':cpf', $cpf);
+  $stmt->bindParam(':rg', $rg);
+  $stmt->bindParam(':cep', $cep);
+  $stmt->bindParam(':cidade', $cidade);
+  $stmt->bindParam(':uf', $uf);
+  $stmt->bindParam(':rua', $rua);
+  $stmt->bindParam(':num', $num);
+  $stmt->bindParam(':bairro', $bairro);
+  $stmt->bindParam(':celular', $tel);
+  $stmt->bindParam(':email', $email);
   $stmt->bindParam(':imagem', $caminhoIMG);
   
   $stmt->execute();

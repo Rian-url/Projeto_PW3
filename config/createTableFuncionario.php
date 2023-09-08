@@ -1,7 +1,11 @@
 <?php
 $servername = "localhost:3306";
 $username = "root";
-$password = "root";
+
+// $password = "root";
+
+// meu servidor
+$password = "tubas1234";
 $dbname = "bd_sistema";
 
 try{
@@ -20,11 +24,12 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
   nm_rua varchar (35) not null,
   nr_logradouro varchar (4) not null,
   nm_bairro varchar (35) not null,
-  tl_funcionario varchar(9) not null,
-  nm_email varchar (40) not null);";
+  tl_funcionario varchar(11) not null,
+  nm_email varchar (40) not null,
+  img_funcionario varchar (100) );";
 
   $conn->exec($sql);
-  echo "Tabela Funcionario criado com sucesso";
+  echo "Tabela Funcionario criada com sucesso";
 } catch(PDOException $e) {
   echo $sql . "<br>" . $e->getMessage();
 }

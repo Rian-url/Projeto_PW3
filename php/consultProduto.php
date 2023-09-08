@@ -16,7 +16,7 @@
 			<div class="col-6">
           <h1 class="text-center bg-success text-white">CONSULTA PRODUTO</h1>
 					<?php
-             include_once('conexao.php');
+             include_once('../conexao.php');
              try 
              {	   
                $select = $conn->prepare('SELECT * FROM tb_produto');
@@ -31,9 +31,9 @@
                  echo "<br><b>Cor: </b>".$row['nm_cor'];
                  echo "<br><b>Peso: </b>".$row['vl_peso'];
                  echo "<br><b>Material: </b>".$row['nm_material'];
-                 echo "<br><b>Descrição: </b>".$row['ds_produto'];
-                 echo "<br><b>Valor: </b>".$row['vl_produto '];
-                 echo "<br><b>Custo: </b>".$row['vl_custo '];
+                 echo "<br><b>Categoria: </b>".$row['nm_produto'];
+                 echo "<br><b>Valor: </b>".$row['vl_produto'];
+                 echo "<br><b>Custo: </b>".$row['vl_custo'];
                  echo "<hr>";
                }
              } 

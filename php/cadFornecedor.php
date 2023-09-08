@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/style.css">
 
-    <script type="text/javascript" src="/js/cep.js"></script>
+    <script type="text/javascript" src="/js/buscaCEP.js"></script>
   </head>
   <body>
 
@@ -39,7 +39,7 @@
 
 <section class="container">
   
-<label class="page-title">CADASTRO FORNECEDOR</label>
+<label class="page-title">CADASTRAR FORNECEDOR</label>
   
   <div class="cad">
    <form method="POST" class="form">
@@ -86,76 +86,66 @@
 <?php 
 
 if(!empty($_POST)) {
-  $fornecedor = array(
-    $_POST['nome'],
-    $_POST['cnpj'],
-    $_POST['rg'],
-    $_POST['cep'],
-    $_POST['rua'],
-    $_POST['num'],
-    $_POST['bairro'],
-    $_POST['cidade'],
-    $_POST['estado'],
-    $_POST['celular'],
-    $_POST['email']
-  );
 
-  for($i = 0; $i < count($fornecedor); $i++){
-     echo "<br>" .$fornecedor[$i];
-  }
+   $nome = $_POST['nome'];
+   $cnpj = $_POST['cnpj'];
+   $rg = $_POST['rg'];
+   $cep = $_POST['cep'];
+   $rua = $_POST['rua'];
+   $num = $_POST['num'];
+   $bairro = $_POST['bairro'];
+   $cidade = $_POST['cidade'];
+   $uf = $_POST['estado'];
+   $tel = $_POST['celular'];
+   $email = $_POST['email'];
 
-  $caminho = "cadastros\Fornecedores.txt";
 
-  $valuesCad = "Fornecedores: $fornecedor[0], $fornecedor[1], $fornecedor[2], $fornecedor[3], $fornecedor[4], $fornecedor[5], $fornecedor[6], $fornecedor[7], 
-  $fornecedor[8], $fornecedor[9] \n";
+  $image = $_FILES['imageFornecedor'];
 
-  if(file_put_contents($caminho, $valuesCad, FILE_APPEND)) {
-    echo"<script> alert('Dados cadastrado com sucesso');</script>";
-  } else {
-    echo"<script> alert('Erro ao cadastrar!');</script>";
-  }
+  $dir = "/imgs/fornecedores/";
 
-$image = $_FILES['imageFornecedor'];
+  date_default_timezone_set('America/Sao_Paulo');
 
-$dir = "imgs/fornecedores/";
+  $extensao = strtolower(substr($image['name'], -4));
 
-date_default_timezone_set('America/Sao_Paulo');
+  $new_name = date("Y.m.d-H.i.s") . $extensao;
 
-$extensao = strtolower(substr($image['name'], -4));
+  move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
 
-$new_name = date("Y.m.d-H.i.s") . $extensao;
+  $caminhoIMG = $dir.$new_name;
 
-move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
+  include_once('../conexao.php');
 
-$caminhoIMG = $dir.$new_name;
-
-include_once('conexao.php');
-
-try {
+   try {
     
-  $stmt = $conn->prepare("INSERT INTO tb_fornecedor (cd_fornecedor, nm_fornecedor, cnpj_fornecedor, rg_fornecedor, cep_fornecedor, nr_logradouro, tl_fornecedor, nm_email, img_fornecedor)VALUES (null, :nome, :cnpj, :rg, :cep, :num, :celular, :email, :imagem)");
+    $stmt = $conn->prepare("INSERT INTO tb_fornecedor(nm_fornecedor, cnpj_fornecedor, rg_fornecedor, cep_fornecedor, nm_cidade, nm_estado, nm_rua, nr_logradouro, nm_bairro, tl_fornecedor, nm_email, img_fornecedor) 
+    VALUES (:nome, :cnpj, :rg, :cep, :cidade, :uf, :rua, :num, :bairro, :celular, :email, :imagem)");
 
-  $stmt->bindParam(':nome', $fornecedor[0]);
-  $stmt->bindParam(':cnpj', $fornecedor[1]);
-  $stmt->bindParam(':rg', $fornecedor[2]);
-  $stmt->bindParam(':cep', $fornecedor[3]);
-  $stmt->bindParam(':numero', $fornecedor[5]);
-  $stmt->bindParam(':celular', $fornecedor[9]);
-  $stmt->bindParam(':email', $fornecedor[10]);
-  $stmt->bindParam(':imagem', $caminhoIMG);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':cnpj', $cnpj);
+    $stmt->bindParam(':rg', $rg);
+    $stmt->bindParam(':cep', $cep);
+    $stmt->bindParam(':cidade', $cidade);
+    $stmt->bindParam(':uf', $uf);
+    $stmt->bindParam(':rua', $rua);
+    $stmt->bindParam(':num', $num);
+    $stmt->bindParam(':bairro', $bairro);
+    $stmt->bindParam(':celular', $tel);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':imagem', $caminhoIMG);
   
-  $stmt->execute();
+    $stmt->execute();
 
-  echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";
+     echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";
 
-} catch(PDOException $e) {
-  echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
-}
-
-
-}
+    } catch(PDOException $e) {
+       echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
+      }
 
 
+ }
+
+ 
 ?> 
 
   </body>
