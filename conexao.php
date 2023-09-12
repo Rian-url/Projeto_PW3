@@ -1,10 +1,10 @@
 <?php 
 $servename = "localhost:3306";
 $username = "root";
-// $password = "root";
+$password = "root";
 
 // meu servidor
-$password = "tubas1234";
+// $password = "tubas1234";
 
 try {
   $conn = new PDO("mysql:host=$servename; dbname=bd_sistema", $username, $password);

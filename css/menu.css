@@ -75,6 +75,22 @@ header{
     display: none;
 }
 
+.containeer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 5rem;
+}
+
+.btn-group button{
+    margin-top: 2rem;
+    width: 20vw;
+    background-color: rgb(107, 141, 107);
+    border: none;
+}
+
 @media screen and (max-width: 768px) {
     header {
         height: 48px;

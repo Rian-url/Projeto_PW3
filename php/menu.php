@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="/css/menu.css">
+
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <title>Home</title>
 </head>
 <body>
@@ -33,6 +37,19 @@
         <ion-icon name="menu-outline" class="toggle" id="toggle-menu"> </ion-icon>
     
       </header>
+
+      <mian>
+        <div class="containeer">
+          <div class="btn-group-vertical btn-group" role="group" aria-label="Vertical button group">
+            <a href="../../config/createDB.php"><button type="button" class="btn btn-primary">Criar BD</button> </a>
+            <a href="../../config/createTableCliente.php"><button type="button" class="btn btn-primary">Criar tabela cliente</button> </a>
+            <a href="../../config/createTableFornecedor.php"><button type="button" class="btn btn-primary">Criar tabela fornecedor</button> </a>
+            <a href="../../config/createTableFuncionario.php"><button type="button" class="btn btn-primary">Criar tabela funionário</button> </a>
+            <a href="../../config/createTableProduto.php"><button type="button" class="btn btn-primary">Criar tabela produto</button> </a>
+            <a href="../../config/createTableUsuario.php"><button type="button" class="btn btn-primary">Criar tabela usuário</button> </a>
+           </div>
+         </div>
+      </main>
     
 <script src="./js/main.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
