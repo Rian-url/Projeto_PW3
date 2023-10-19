@@ -47,6 +47,7 @@
 		<div class="text-center">
             <br>
 			<button type="button" class="btn btn-success" onclick="javascript:location.href ='menu.php';">Voltar</button>
+      <button type="button" class="btn btn-success" onclick="javascript:location.href ='alterarCliente.php';">Alterar dados</button>
 		</div>
 	</div>
   </body>

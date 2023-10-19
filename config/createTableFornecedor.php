@@ -1,10 +1,10 @@
 <?php
 $servername = "localhost:3306";
 $username = "root";
-$password = "root";
+// $password = "root";
 
 // meu servidor
-// $password = "tubas1234";
+$password = "tubas1234";
 $dbname = "bd_sistema";
 
 try{

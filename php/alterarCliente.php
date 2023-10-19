@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CADASTRO DE CLIENTE</title>
+    <title>ALTERAR DADOS CLIENTE</title>
     
     
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/menu.css">
 
      
@@ -42,53 +42,57 @@
 
 <section class="container">
   
-<label class="page-title">CADASTRO CLIENTE</label>
+<label class="page-title">ALTERAR DADOS CLIENTE</label>
   
   <div class="cad">
    <form method="POST" class="form">
-    <label class="form-label">NOME COMPLETO:</label> <br>
-    <input type="text" class="form-value" id="nome" name="nome" required> <br>
+
+   <label class="form-label">CÓDIGO DO CLIENTE:</label> <br>
+    <input type="text" class="form-value" id="codigo" name="codigo" required placeholder="Digite aqui"> <br>
+
+    <label class="form-label"> NOME COMPLETO:</label> <br>
+    <input type="text" class="form-value" id="nome" name="nome" required placeholder="Digite aqui"> <br>
 
     <label class="title"> Documentos </label> <br>
     <label class="form-label">CPF:</label>
-    <input type="number" class="form-value" id="cpf" name="cpf" onblur="TestaCPF(this.value)" required>
-
+    <input type="number" class="form-value" id="cpf" name="cpf" onblur="TestaCPF(this.value)" required placeholder="Digite aqui">
+   
     <label class="form-label">RG:</label>
-    <input type="number" class="form-value" id="rg" name="rg" required> <br>
+    <input type="number" class="form-value" id="rg" name="rg" required placeholder="Digite aqui"> <br>
 
     <label class="title"> Endereço residencial </label> <br>
+
     <label class="form-label">CEP:</label>
-    <input type="number" class="form-value" id="cep" name="cep" onblur="pesquisacep(this.value)" required>
+    <input type="number" class="form-value" id="cep" name="cep" onblur="pesquisacep(this.value)" required placeholder="Digite aqui">
 
     <label class="form-label">CIDADE:</label>
-    <input type="text" class="form-value" id="cidade" name="cidade" required>
-    
+    <input type="text" class="form-value" id="cidade" name="cidade" required placeholder="Digite aqui">
+
     <label class="form-label">ESTADO:</label>
-    <input type="text" class="form-value" id="uf" name="estado" required> <br>
+    <input type="text" class="form-value" id="uf" name="estado" required placeholder="Digite aqui"> <br>
 
      <label class="form-label">RUA:</label>
-    <input type="text" class="form-value" id="rua" name="rua" required>
+    <input type="text" class="form-value" id="rua" name="rua" required placeholder="Digite aqui">
 
     <label class="form-label">Nº:</label>
-    <input type="number" class="form-value" id="num" name="num" required>
+    <input type="number" class="form-value" id="num" name="num" required placeholder="Digite aqui">
 
     <label class="form-label">BAIRRO:</label>
-    <input type="text" class="form-value" id="bairro" name="bairro" required> <br>
+    <input type="text" class="form-value" id="bairro" name="bairro" required placeholder="Digite aqui"> <br>
 
     <label class="title"> Contatos </label> <br>
     <label class="form-label">CELULAR:</label>
-    <input type="number" class="form-value" id="celular" name="celular" required>
+    <input type="number" class="form-value" id="celular" name="celular" required placeholder="Digite aqui"> 
 
     <label class="form-label">EMAIL:</label>
-    <input type="email" class="form-value" id="email" name="email" required><br>
+    <input type="email" class="form-value" id="email" name="email" required placeholder="Digite aqui"><br>
 
     <label class="form-label">FOTO:</label>
-    <input type="file" accept="image/*" class="form-value" id="image" name="imageCliente"><br>
+    <input type="file" accept="image/*" class="form-value" id="image" name="imageCliente" required><br>
 
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
-    <input type="submit" value="Cadastrar" class="btn2"> <br>
-    <a href="consultCliente.php"><input type="button" value="Consultar" class="btn3"></a>
+    <input type="submit" value="Editar" class="btn2"> <br>
     </div>
    </form>
     
@@ -102,6 +106,7 @@
 if(!empty($_POST)) {
 
    $nome = $_POST['nome'];
+   $cd = $_POST['codigo'];
    $cpf = $_POST['cpf'];
    $rg = $_POST['rg'];
    $cep = $_POST['cep'];
@@ -131,9 +136,9 @@ if(!empty($_POST)) {
 
  try {
     
-  $stmt = $conn->prepare("INSERT INTO tb_cliente ( nm_cliente, cpf_cliente, rg_cliente, cep_cliente, nm_cidade, nm_estado, nm_rua, nr_logradouro, nm_bairro, tl_cliente, nm_email, img_cliente)
-                                          VALUES (:nome, :cpf, :rg, :cep, :cidade, :uf, :rua, :num, :bairro, :celular, :email, :imagem);");
+  $stmt = $conn->prepare("UPDATE tb_cliente SET nm_cliente = :nome , cpf_cliente = :cpf, rg_cliente = :rg, cep_cliente = :cep, nm_cidade = :cidade, nm_estado = :uf, nm_rua = :rua, nr_logradouro = :num, nm_bairro = :bairro, tl_cliente = :celular, nm_email = :email, img_cliente = :imagem where cd_cliente = :codigo");
 
+  $stmt->bindParam(':codigo', $cd);
   $stmt->bindParam(':nome', $nome);
   $stmt->bindParam(':cpf', $cpf);
   $stmt->bindParam(':rg', $rg);

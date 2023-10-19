@@ -41,7 +41,11 @@
     border-bottom: 3.5px solid;
     margin-left: 5px;
     margin-top: 3.5px;
-    height: 30px;
+    height: 35px;
+}
+
+.form #email{
+    width:550px;
 }
 
 #nome {
