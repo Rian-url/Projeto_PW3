@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600&display=swap');
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-title {
+    color: #a29d7f;
+    font-family: 'Zilla Slab', serif;
+    font-size: 55px;
+    margin-top: 3rem;
+}
+
+.cad {
+    width: 52rem;
+    height: 36rem;
+    background-color: #b4ae8e;
+    border: 5px solid #aabe9b;
+    border-radius: 15px;
+    padding-left: 20px;
+    margin-top: 2.6rem;
+    margin-bottom:100px;
+    box-shadow: 12px 12px 2px 1px #637566;
+
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.cad-funcionario{
+  width: 52rem;
+  height: 41rem;
+  background-color: #b4ae8e;
+  border: 5px solid #aabe9b;
+  border-radius: 15px;
+  padding-left: 20px;
+  margin-top: 2.6rem;
+  margin-bottom:100px;
+  box-shadow: 12px 12px 2px 1px #637566;
+
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.cad-fornecedor{
+    width: 52rem;
+    height: 38rem;
+    background-color: #b4ae8e;
+    border: 5px solid #aabe9b;
+    border-radius: 15px;
+    padding-left: 20px;
+    margin-top: 2.6rem;
+    margin-bottom:100px;
+    box-shadow: 12px 12px 2px 1px #637566;
+  
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+.cad-usuario{
+    width: 52rem;
+    height: 24rem;
+    background-color: #b4ae8e;
+    border: 5px solid #aabe9b;
+    border-radius: 15px;
+    padding-left: 20px;
+    margin-top: 2.6rem;
+    margin-bottom:100px;
+    box-shadow: 12px 12px 2px 1px #637566;
+  
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.cad-produto{
+    width: 52rem;
+    height: 34rem;
+    background-color: #b4ae8e;
+    border: 5px solid #aabe9b;
+    border-radius: 15px;
+    padding-left: 20px;
+    margin-top: 2.6rem;
+    margin-bottom:100px;
+    box-shadow: 12px 12px 2px 1px #637566;
+  
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+
+.form {
+    margin-top: 30px;
+}
+
+.form input {
+    border-radius: 8px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3.5px solid;
+    margin-left: 5px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 35px;
+}
+
+.form legend{
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+.form .title {
+    font-size: 22px;
+    margin-left: 3rem;
+    font-weight: bold;
+}
+
+.form .btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    margin-top: 4rem;
+}
+
+.form .btns input {
+    width: 200px;
+    color: white;
+}
+
+.form .btns input:hover{
+  cursor: pointer;
+  border: solid 3px;
+}
+
+.form .btns .btn3 {
+    background-color: #cfb820;
+}
+
+.form .btns .btn2 {
+    background-color: #157515;
+}
+
+.form .btns .btn1 {
+    background-color: #ad2525;
+}
+
+#nome, #email, #cargo {
+    width: 370px;
+}
+
+#image{
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 2rem;
+}
+
+  

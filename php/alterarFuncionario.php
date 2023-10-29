@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CADASTRAR DE FUNCIONÁRIOS</title>
-
+    <title>ALTERAR DADOS FUNCIONÁRIOS</title>
+    
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/styles.css">
 
     <script type="text/javascript" src="/js/buscaCEP.js"></script>
    <script type="text/javascript" src="/js/validaCPF.js"></script>
-
+    
 
   </head>
   <body>
@@ -19,41 +19,41 @@
         <div class="logo">
           <img src="" alt="" srcset="">
         </div>
-
+    
         <nav class="nav" id="nav_menu">
-
+    
           <ion-icon name="close-outline" class="close" id="close-menu"></ion-icon>
-
+    
           <ul class="nav_list">
           <li class="nav_item"> <a href="./menu.php" class="link">Home</a> </li>
 
-            <li class="nav_item"> <a href="/php/cadCliente.php" class="link">Clientes</a> </li>
+            <li class="nav_item"> <a href="/php/cadfuncionario.php" class="link">Clientes</a> </li>
             <li class="nav_item"> <a href="/php/cadUsuario.php" class="link">Usuários</a> </li>
             <li class="nav_item"> <a href="/php/cadFuncionario.php" class="link">Funcionários</a> </li>
             <li class="nav_item"> <a href="/php/cadFornecedor.php" class="link">Forncedores</a> </li>  
             <li class="nav_item"> <a href="/php/cadProduto.php" class="link">Produtos</a> </li>          
           </ul>
         </nav>
-
+    
         <ion-icon name="menu-outline" class="toggle" id="toggle-menu"> </ion-icon>
-
+    
       </header>
 
 <section class="container">
-
-<label class="page-title">CADASTRAR FUNCIONÁRIO</label>
-
+  
+<label class="page-title">ALTERAR FUNCIONÁRIO</label>
+  
   <div class="cad-funcionario">
-   <form method="POST" class="form" >
-
-   <legend>Insira os dados</legend>
+   <form method="POST" class="form">
+    <label class="form-label">CÓDIGO DO FUNCIONÁRIO:</label> 
+    <input type="text" class="form-value" id="codigo" name="codigo" required > <br>
 
     <label class="form-label">NOME COMPLETO:</label>
     <input type="text" class="form-value" id="nome" name="nome" required> <br>
 
-    <label class="form-label">CARGO:</label>
+    <label class="form-label">CARGO:</label> 
     <input type="text" class="form-value" id="cargo" name="cargo" required> <br>
-
+    
     <label class="title"> Documentos </label> <br>
     <label class="form-label">CPF:</label>
     <input type="number" class="form-value" id="cpf" name="cpf" onblur="TestaCPF(this.value)" required>
@@ -92,19 +92,21 @@
 
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
-    <input type="submit" value="Cadastrar" class="btn2"> <br>
-    <a href="/php/consultFuncionario.php"><input type="button" value="Consultar" class="btn3"></a>
+    <input type="submit" value="Atualizar" class="btn2"> <br>
+    <a href="/php/consultFuncionario.php"><input type="button" value="Voltar" class="btn3"></a>
     </div>
    </form>
-
+    
   </div>
 </section>
-
+    
 
 
 <?php 
 
 if(!empty($_POST)) {
+
+   $cd = $_POST['codigo'];
    $nome = $_POST['nome'];
    $cargo = $_POST['cargo'];
    $cpf = $_POST['cpf'];
@@ -120,24 +122,24 @@ if(!empty($_POST)) {
 
   $imagem = $_FILES['imageFuncionario'];
   $dir = "/imgs/funcionarios/";
-
+   
   date_default_timezone_set('America/Sao_Paulo');
-
+   
   $extensao = strtolower(substr($imagem['name'], -4));
-
+   
   $new_name = date("Y.m.d-H.i.s") . $extensao;
-
+   
   move_uploaded_file($imagem['tmp_name'], $dir.$new_name);
-
+   
  $caminhoIMG = $dir.$new_name;
-
+   
  include_once('../conexao.php');
-
+   
      try {
+       
+        $stmt = $conn->prepare("UPDATE tb_funcionario SET nm_funcionario = :nome , nm_cargo = :cargo, cpf_funcionario = :cpf, rg_funcionario = :rg, cep_funcionario = :cep, nm_cidade = :cidade, nm_estado = :uf, nm_rua = :rua, nr_logradouro = :num, nm_bairro = :bairro, tl_funcionario = :celular, nm_email = :email, img_funcionario = :imagem where cd_funcionario = :codigo;");
 
-       $stmt = $conn->prepare("INSERT INTO tb_funcionario (nm_funcionario, nm_cargo, cpf_funcionario, rg_funcionario, cep_funcionario, nm_cidade, nm_estado, nm_rua, nr_logradouro, nm_bairro, tl_funcionario, nm_email, img_funcionario)
-                             VALUES (:nome, :cargo, :cpf, :rg, :cep, :cidade, :uf, :rua, :num, :bairro, :celular, :email, :imagem)");
-
+       $stmt->bindParam(':codigo', $cd);
        $stmt->bindParam(':nome', $nome);
        $stmt->bindParam(':cargo', $cargo);
        $stmt->bindParam(':cpf', $cpf);
@@ -147,21 +149,21 @@ if(!empty($_POST)) {
        $stmt->bindParam(':uf', $uf);
        $stmt->bindParam(':rua', $rua);
        $stmt->bindParam(':num', $num);
-       $stmt->bindParam('bairro', $bairro);
+       $stmt->bindParam(':bairro', $bairro);
        $stmt->bindParam(':celular', $tel);
        $stmt->bindParam(':email', $email);
        $stmt->bindParam(':imagem', $caminhoIMG);
-
+       
        $stmt->execute();
-
-       echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";
-
+   
+       echo "<script>alert('Atualizado no banco de dados com sucesso');</script>";
+   
      } catch(PDOException $e) {
        echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
      }
      $conn = null;
-
-
+   
+   
 
 }
 

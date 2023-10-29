@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CADASTRO DE FORNECEDORES</title>
-
+    <title>ALTERAR CADASTRO DE FORNECEDORES</title>
     
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/styles.css">
@@ -25,7 +24,7 @@
           <ul class="nav_list">
           <li class="nav_item"> <a href="./menu.php" class="link">Home</a> </li>
 
-            <li class="nav_item"> <a href="/php/cadfuncionario.php" class="link">Clientes</a> </li>
+            <li class="nav_item"> <a href="/php/cadfornecedor.php" class="link">fornecedors</a> </li>
             <li class="nav_item"> <a href="/php/cadUsuario.php" class="link">Usuários</a> </li>
             <li class="nav_item"> <a href="/php/cadFuncionario.php" class="link">Funcionários</a> </li>
             <li class="nav_item"> <a href="/php/cadFornecedor.php" class="link">Forncedores</a> </li>  
@@ -38,69 +37,71 @@
       </header>
 
 <section class="container">
-
-<label class="page-title">CADASTRAR FORNECEDOR</label>
-
-  <div class="cad">
+  
+<label class="page-title">ALTERAR DADOS FORNECEDOR</label>
+  
+  <div class="cad-fornecedor">
    <form method="POST" class="form">
-
-    <legend>Insira os dados</legend>
-
-    <label class="form-label">NOME COMPLETO:</label> 
-    <input type="text" class="form-value" id="nome" name="nome"> <br>
+   <label class="form-label">CÓDIGO DO FORNECEDOR:</label> 
+    <input type="number" class="form-value" id="codigo" name="codigo" required > <br>
+    
+    <label class="form-label">NOME COMPLETO:</label>
+    <input type="text" class="form-value" id="nome" name="nome" required> <br>
 
     <label class="title"> Documentos </label> <br>
     <label class="form-label">CNPJ:</label>
-    <input type="number" class="form-value" id="cnpj" name="cnpj">
+    <input type="number" class="form-value" id="cnpj" name="cnpj" required>
 
     <label class="form-label">RG:</label>
-    <input type="number" class="form-value" id="rg" name="rg"> <br>
+    <input type="number" class="form-value" id="rg" name="rg" required> <br>
 
     <label class="title"> Endereço comercial  </label> <br>
     <label class="form-label">CEP:</label>
-    <input type="number" class="form-value" id="cep" name="cep" onblur="pesquisacep(this.value)">
+    <input type="number" class="form-value" id="cep" name="cep" onblur="pesquisacep(this.value)" required>
 
     <label class="form-label">CIDADE:</label>
-    <input type="text" class="form-value" id="cidade" name="cidade">
+    <input type="text" class="form-value" id="cidade" name="cidade" required>
 
     <label class="form-label">ESTADO:</label>
-    <input type="text" class="form-value" id="uf" name="estado"> <br>
+    <input type="text" class="form-value" id="uf" name="estado" required> <br>
 
-    <label class="form-label">RUA:</label>
-    <input type="text" class="form-value" id="rua" name="rua">
+     <label class="form-label">RUA:</label>
+    <input type="text" class="form-value" id="rua" name="rua" required>
 
     <label class="form-label">Nº:</label>
-    <input type="number" class="form-value" id="num" name="num">
+    <input type="number" class="form-value" id="num" name="num" required>
 
     <label class="form-label">BAIRRO:</label>
-    <input type="text" class="form-value" id="bairro" name="bairro"> <br>
+    <input type="text" class="form-value" id="bairro" name="bairro" required> <br>
 
     <label class="title"> Contatos </label> <br>
     <label class="form-label">CELULAR:</label>
-    <input type="number" class="form-value" id="celular" name="celular">
+    <input type="number" class="form-value" id="celular" name="celular" required>
 
     <label class="form-label">EMAIL:</label>
-    <input type="email" class="form-value" id="email" name="email"><br>
+    <input type="email" class="form-value" id="email" name="email" required><br>
 
     <label class="form-label">FOTO:</label>
     <input type="file" accept="image/*" class="form-value" id="image" name="imageFornecedor"><br>
 
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
-    <input type="submit" value="Cadastrar" class="btn2"> <br>
-    <a href="consultFornecedor.php"><input type="button" value="Consultar" class="btn3"></a>
+    <input type="submit" value="Atualizar" class="btn2"> <br>
+    <a href="consultFornecedor.php"><input type="button" value="Voltar" class="btn3"></a>
+    
     </div>
    </form>
-
+    
   </div>
 </section>
-
+    
 
 
 <?php 
 
 if(!empty($_POST)) {
 
+   $cd = $_POST['codigo'];
    $nome = $_POST['nome'];
    $cnpj = $_POST['cnpj'];
    $rg = $_POST['rg'];
@@ -131,10 +132,10 @@ if(!empty($_POST)) {
   include_once('../conexao.php');
 
    try {
+    
+    $stmt = $conn->prepare("UPDATE tb_fornecedor SET nm_fornecedor = :nome , cnpj_fornecedor = :cnpj, rg_fornecedor = :rg, cep_fornecedor = :cep, nm_cidade = :cidade, nm_estado = :uf, nm_rua = :rua, nr_logradouro = :num, nm_bairro = :bairro, tl_fornecedor = :celular, nm_email = :email, img_fornecedor = :imagem where cd_fornecedor = :codigo");
 
-    $stmt = $conn->prepare("INSERT INTO tb_fornecedor(nm_fornecedor, cnpj_fornecedor, rg_fornecedor, cep_fornecedor, nm_cidade, nm_estado, nm_rua, nr_logradouro, nm_bairro, tl_fornecedor, nm_email, img_fornecedor) 
-    VALUES (:nome, :cnpj, :rg, :cep, :cidade, :uf, :rua, :num, :bairro, :celular, :email, :imagem)");
-
+    $stmt->bindParam(':codigo', $cd);
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':cnpj', $cnpj);
     $stmt->bindParam(':rg', $rg);
@@ -147,10 +148,10 @@ if(!empty($_POST)) {
     $stmt->bindParam(':celular', $tel);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':imagem', $caminhoIMG);
-
+  
     $stmt->execute();
 
-     echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";
+     echo "<script>alert('Alterado no banco de dados com sucesso!');</script>";
 
     } catch(PDOException $e) {
        echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
@@ -159,7 +160,7 @@ if(!empty($_POST)) {
 
  }
 
-
+ 
 ?> 
 
   </body>

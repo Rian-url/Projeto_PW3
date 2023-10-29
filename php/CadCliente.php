@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CADASTRO DE CLIENTE</title>
-    
-    
-    <link rel="stylesheet" href="./css/style.css">
+
+
+    <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/menu.css">
 
-     
+
    <script type="text/javascript" src="/js/buscaCEP.js"></script>
    <script type="text/javascript" src="/js/validaCPF.js"></script>
 
@@ -20,11 +20,11 @@
         <div class="logo">
           <img src="" alt="" srcset="">
         </div>
-    
+
         <nav class="nav" id="nav_menu">
-    
+
           <ion-icon name="close-outline" class="close" id="close-menu"></ion-icon>
-    
+
           <ul class="nav_list">
           <li class="nav_item"> <a href="./menu.php" class="link">Home</a> </li>
 
@@ -35,18 +35,21 @@
             <li class="nav_item"> <a href="cadProduto.php" class="link">Produtos</a> </li>          
           </ul>
         </nav>
-    
+
         <ion-icon name="menu-outline" class="toggle" id="toggle-menu"> </ion-icon>
-    
+
       </header>
 
 <section class="container">
-  
+
 <label class="page-title">CADASTRO CLIENTE</label>
-  
+
   <div class="cad">
    <form method="POST" class="form">
-    <label class="form-label">NOME COMPLETO:</label> <br>
+
+     <legend>Insira os dados</legend>
+
+    <label class="form-label">NOME COMPLETO:</label> 
     <input type="text" class="form-value" id="nome" name="nome" required> <br>
 
     <label class="title"> Documentos </label> <br>
@@ -62,7 +65,7 @@
 
     <label class="form-label">CIDADE:</label>
     <input type="text" class="form-value" id="cidade" name="cidade" required>
-    
+
     <label class="form-label">ESTADO:</label>
     <input type="text" class="form-value" id="uf" name="estado" required> <br>
 
@@ -91,10 +94,10 @@
     <a href="consultCliente.php"><input type="button" value="Consultar" class="btn3"></a>
     </div>
    </form>
-    
+
   </div>
 </section>
-    
+
 
 
 <?php 
@@ -130,7 +133,7 @@ if(!empty($_POST)) {
   include_once('../conexao.php');
 
  try {
-    
+
   $stmt = $conn->prepare("INSERT INTO tb_cliente ( nm_cliente, cpf_cliente, rg_cliente, cep_cliente, nm_cidade, nm_estado, nm_rua, nr_logradouro, nm_bairro, tl_cliente, nm_email, img_cliente)
                                           VALUES (:nome, :cpf, :rg, :cep, :cidade, :uf, :rua, :num, :bairro, :celular, :email, :imagem);");
 
@@ -146,7 +149,7 @@ if(!empty($_POST)) {
   $stmt->bindParam(':celular', $tel);
   $stmt->bindParam(':email', $email);
   $stmt->bindParam(':imagem', $caminhoIMG);
-  
+
   $stmt->execute();
 
   echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";

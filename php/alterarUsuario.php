@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CADASTRO DE USUARIO</title>
+    <title>ALTERAR DADOS USUARIO</title>
     
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/styles.css">
@@ -40,12 +40,12 @@
 
 <section class="container">
   
-<label class="page-title">CADASTRAR USUÁRIO</label>
+<label class="page-title">ALTERAR USUÁRIO</label>
   
   <div class="cad-usuario">
-  <form method="POST" class="form">
-
-   <legend>Insira os dados</legend>
+   <form method="POST" class="form">
+    <label class="form-label">CÓDIGO DO CLIENTE:</label>
+    <input type="text" class="form-value" id="codigo" name="codigo" required > <br>
 
     <label class="form-label">NOME COMPLETO:</label>
     <input type="text" class="form-value" id="nome" name="nome" required> <br>
@@ -61,8 +61,8 @@
 
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
-    <input type="submit" value="Cadastrar" class="btn2"> <br>
-    <a href="consultUsuario.php"><input type="button" value="Consultar" class="btn3"></a>
+    <input type="submit" value="Atualizar" class="btn2"> <br>
+    <a href="consultUsuario.php"><input type="button" value="Voltar" class="btn3"> <br></a>
     </div>
    </form>
     
@@ -75,6 +75,7 @@
 
 if(!empty($_POST)) {
 
+    $cd = $_POST['codigo'];
    $nome = $_POST['nome'];
    $email = $_POST['email'];
    $senha = $_POST['senha'];
@@ -96,9 +97,9 @@ if(!empty($_POST)) {
 
  try {
     
-  $stmt = $conn->prepare("INSERT INTO tb_usuario ( nm_usuario, nm_email, nm_senha, img_usuario)
-                                          VALUES (:nome, :email, :senha, :imagem);");
+  $stmt = $conn->prepare("UPDATE tb_usuario SET  nm_usuario = :nome, nm_email =  :email, nm_senha = :senha, img_usuario = :imagem where cd_usuario = :codigo;");
 
+  $stmt->bindParam(':codigo', $cd);
   $stmt->bindParam(':nome', $nome);
   $stmt->bindParam(':email', $email);
   $stmt->bindParam(':senha', $senha);
@@ -106,11 +107,14 @@ if(!empty($_POST)) {
   
   $stmt->execute();
 
-  echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";
+  echo "<script>alert('Atualizado no banco de dados com sucesso!');</script>";
+  
 
 } catch(PDOException $e) {
   echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
 }
+
+
 
 
 }

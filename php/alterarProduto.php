@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CADASTRO DE PRODUTO</title>
+    <title>ALTERAR DADOS PRODUTO</title>
     
-   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/menu.css">
     <link rel="stylesheet" href="/css/styles.css">
 
@@ -27,11 +27,11 @@
           <ul class="nav_list">
           <li class="nav_item"> <a href="./menu.php" class="link">Home</a> </li>
 
-            <li class="nav_item"> <a href="cadCliente.php" class="link">Clientes</a> </li>
-            <li class="nav_item"> <a href="cadUsuario.php" class="link">Usuários</a> </li>
-            <li class="nav_item"> <a href="cadFuncionario.php" class="link">Funcionários</a> </li>
-            <li class="nav_item"> <a href="cadFornecedor.php" class="link">Forncedores</a> </li>  
-            <li class="nav_item"> <a href="cadProduto.php" class="link">Produtos</a> </li>          
+            <li class="nav_item"> <a href="/php/cadproduto.php" class="link">produtos</a> </li>
+            <li class="nav_item"> <a href="/php/cadUsuario.php" class="link">Usuários</a> </li>
+            <li class="nav_item"> <a href="/php/cadFuncionario.php" class="link">Funcionários</a> </li>
+            <li class="nav_item"> <a href="/php/cadFornecedor.php" class="link">Forncedores</a> </li>  
+            <li class="nav_item"> <a href="/php/cadProduto.php" class="link">Produtos</a> </li>          
           </ul>
         </nav>
     
@@ -41,12 +41,12 @@
 
 <section class="container">
   
-<label class="page-title">CADASTRAR PRODUTO</label>
+<label class="page-title">ALTERAR PRODUTO</label>
   
   <div class="cad-produto">
-  <form method="POST" class="form">
-
-   <legend>Insira os dados</legend>
+   <form method="POST" class="form">
+    <label class="form-label">CÓDIGO DO PRODUTO:</label>
+    <input type="text" class="form-value" id="codigo" name="codigo" required > <br>
 
     <label class="form-label">NOME:</label>
     <input type="text" class="form-value" id="nome" name="nome" required> <br>
@@ -81,8 +81,8 @@
 
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
-    <input type="submit" value="Cadastrar" class="btn2"> <br>
-    <a href="/php/consultProduto.php"><input type="button" value="Consultar" class="btn3"></a>
+    <input type="submit" value="Atualizar" class="btn2"> <br>
+    <a href="/php/consultProduto.php"><input type="button" value="Voltar" class="btn3"></a>
     </div>
    </form>
     
@@ -95,6 +95,7 @@
 
 if(!empty($_POST)) {
 
+   $cd = $_POST['codigo'];
    $nome = $_POST['nome'];
    $cor = $_POST['cor'];
    $peso = $_POST['peso'];
@@ -120,9 +121,9 @@ include_once('../conexao.php');
 
 try {
   
-  $stmt = $conn->prepare("INSERT INTO tb_produto (nm_produto, nm_cor, vl_peso, nm_material, nr_quantidade, nm_categoria, vl_produto, vl_custo, img_produto)
-                         VALUES (:nome, :cor, :peso, :material, :quantidade, :tipo, :preco, :custo, :imagem)");
+    $stmt = $conn->prepare("UPDATE tb_produto SET nm_produto = :nome , nm_cor = :cor, vl_peso = :peso, nm_material = :material, nr_quantidade = :quantidade, nm_categoria = :tipo, vl_produto = :preco, vl_custo = :custo, img_produto = :imagem where cd_produto = :codigo;");
 
+  $stmt->bindParam(':codigo', $cd);
   $stmt->bindParam(':nome', $nome);
   $stmt->bindParam(':cor', $cor);
   $stmt->bindParam(':peso', $peso);
@@ -135,7 +136,7 @@ try {
   
   $stmt->execute();
 
-  echo "<script>alert('Cadastrado no banco de dados com Sucesso');</script>";
+  echo "<script>alert('Atualizado no banco de dados com sucesso');</script>";
 
 } catch(PDOException $e) {
   echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
