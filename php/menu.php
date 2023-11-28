@@ -1,3 +1,24 @@
+<?php 
+session_start();
+
+include_once("../conexao.php");
+
+if(isset($_SESSION['email'])){
+
+  $rs = $conn-> prepare("SELECT nm_usuario, nivel_acesso FROM tb_usuario where nm_email = '". $_SESSION['email']."' ");
+
+  $rs->execute();
+  $row = $rs->fetch();
+
+  // echo $_SESSION['email'] ;
+
+}
+ else {
+  echo " <script>	window.alert('Acesso não permitido'); window.location.href='../index.php'; </script>";	
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -15,9 +36,7 @@
 <body>
 
     <header>
-        <div class="logo">
-          <img src="" alt="" srcset="">
-        </div>
+    
     
         <nav class="nav" id="nav_menu">
     
@@ -32,6 +51,11 @@
             <li class="nav_item"> <a href="cadFornecedor.php" class="link">Forncedores</a> </li>  
             <li class="nav_item"> <a href="cadProduto.php" class="link">Produtos</a> </li>          
           </ul>
+ 
+          <ul class="nav_list">
+          <li class="nav_item"> <a href="sair.php" class="link">Sair</a> </li> 
+          </ul>
+          
         </nav>
     
         <ion-icon name="menu-outline" class="toggle" id="toggle-menu"> </ion-icon>
@@ -57,3 +81,5 @@
 
 </body>
 </html>
+
+

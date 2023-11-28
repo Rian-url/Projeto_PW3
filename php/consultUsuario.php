@@ -36,6 +36,8 @@
       </header>
 
   <body>
+
+  <!-- == 0 ? "Administrador" : "Desenvolvedor" -->
     
     <div class="container">
 	
@@ -53,10 +55,12 @@
                  
                  while($row = $select->fetch()) 
                  {		
+                   $nvl_acesso = $row['nivel_acesso'] == 0 ? "Administrador" : "Desenvolvedor" ;
                    $cd = $row['cd_usuario'];
                    echo "<p>";
                    echo "<br><img src='".$row['img_usuario']."' width=80px>";
-                   echo "<br><b>Codigo: </b>".$row['cd_usuario'];
+                   echo "<br><b>Codigo: </b>". $row['cd_usuario'] ;
+                   echo "<br><b>Nível de acesso: </b>".$nvl_acesso;
                    echo "<br><b>Nome: </b>".$row['nm_usuario'];
                    echo "<br><b>Email: </b>".$row['nm_email'];
                    echo "<br/>";

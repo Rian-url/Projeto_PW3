@@ -17,6 +17,7 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
   nm_usuario varchar(50) not null,
   nm_email varchar(30) not null,
   nm_senha varchar(30) not null,
+  nivel_acesso int not null,
   img_usuario varchar (100) );";
 
   $conn->exec($sql);

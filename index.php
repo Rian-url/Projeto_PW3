@@ -42,13 +42,31 @@ if(!empty($_POST)) {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    if(($email == "user@teste.com" && $senha == "0101")) {
-        $_SESSION['usuario'] = $email;
-        header('Location:./php/menu.php');
-    } else {
-        session_destroy();
-        echo"<script> alert('Acesso negado!');</script>";
+    include_once('conexao.php');
+
+    $rs = $conn->query("SELECT * FROM tb_usuario where nm_email='$email'and 
+    nm_senha='$senha'");
+
+    $rs -> execute();
+
+    if($rs->fetch(PDO::FETCH_ASSOC) == true) { 
+
+     $_SESSION["email"] = $email;
+     header('Location:php/menu.php');
     }
+    else {
+     echo"<script>
+     alert('Nome de usuário ou senha incorreto');
+     </script>";
+    }
+
+    // if(($email == "user@teste.com" && $senha == "0101")) {
+    //     $_SESSION['usuario'] = $email;
+    //     header('Location:./php/menu.php');
+    // } else {
+    //     session_destroy();
+    //     echo"<script> alert('Acesso negado!');</script>";
+    // }
 }
 
 ?>

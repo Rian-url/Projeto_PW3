@@ -11,7 +11,7 @@ try {
 
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  echo "Banco de dados conectado com sucesso  <br/>";
+  // echo "<script> alert('Banco de dados conectado com sucesso') </script>";
 } catch(PDOException $e) {
   echo "Falha na conexão: " . $e->getMessage();
 }

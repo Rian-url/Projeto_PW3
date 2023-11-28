@@ -1,3 +1,24 @@
+<?php 
+session_start();
+
+include_once("../conexao.php");
+
+if(isset($_SESSION['email'])){
+
+  $rs = $conn-> prepare("SELECT nm_usuario, nivel_acesso FROM tb_usuario where nm_email = '". $_SESSION['email']."' ");
+
+  $rs->execute();
+  $row = $rs->fetch();
+  echo $row['nivel_acesso'];
+
+
+}
+ else {
+  echo " <script>	window.alert('Acesso não permitido'); window.location.href='../index.php'; </script>";	
+}
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -50,6 +71,14 @@
     <label class="form-label">NOME COMPLETO:</label>
     <input type="text" class="form-value" id="nome" name="nome" required> <br>
 
+    <label class="form-label">CARGO:</label>
+    <select name="cargo" id="cargo">
+      <option></option>
+      <option value="0">Administrador</option>
+      <option value="1">Desenvolvedor</option>
+    </select>
+    <br/>
+
     <label class="form-label">EMAIL:</label>
     <input type="email" class="form-value" id="email" name="email" required><br>
 
@@ -62,7 +91,10 @@
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
     <input type="submit" value="Cadastrar" class="btn2"> <br>
+    <?php
+       if($row['nivel_acesso'] == 1 ) {?>
     <a href="consultUsuario.php"><input type="button" value="Consultar" class="btn3"></a>
+    <?php } ?>
     </div>
    </form>
     
@@ -73,9 +105,11 @@
 
 <?php 
 
+
 if(!empty($_POST)) {
 
    $nome = $_POST['nome'];
+   $cargo = intval($_POST['cargo']);
    $email = $_POST['email'];
    $senha = $_POST['senha'];
 
@@ -96,10 +130,11 @@ if(!empty($_POST)) {
 
  try {
     
-  $stmt = $conn->prepare("INSERT INTO tb_usuario ( nm_usuario, nm_email, nm_senha, img_usuario)
-                                          VALUES (:nome, :email, :senha, :imagem);");
+  $stmt = $conn->prepare("INSERT INTO tb_usuario ( nm_usuario, nm_email, nm_senha, nivel_acesso, img_usuario)
+                                          VALUES (:nome, :email, :senha, :cargo, :imagem);");
 
   $stmt->bindParam(':nome', $nome);
+  $stmt->bindParam(':cargo', $cargo);
   $stmt->bindParam(':email', $email);
   $stmt->bindParam(':senha', $senha);
   $stmt->bindParam(':imagem', $caminhoIMG);
@@ -110,6 +145,8 @@ if(!empty($_POST)) {
 
 } catch(PDOException $e) {
   echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();
+  echo " <br/> teste </br>";
+  echo $cargo;
 }
 
 
@@ -121,3 +158,12 @@ if(!empty($_POST)) {
 
   </body>
 </html>
+
+<!-- alterações
+sair 
+menu 
+cadUser
+conex 
+consultUser
+index
+createTableUsuario -->
