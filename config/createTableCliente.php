@@ -1,16 +1,11 @@
 <?php
-$servername = "localhost:3306";
-$username = "root";
-// $password = "root";
 
-// meu servidor
-$password = "tubas1234";
+include("../conexao.php");
 
-$dbname = "bd_sistema";
+
 
 try{
-$conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password); 
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
   
   $sql = "create table tb_cliente(
   cd_cliente int PRIMARY KEY AUTO_INCREMENT,
@@ -28,11 +23,11 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
   img_cliente varchar (100)
   );";
 
-  $conn->exec($sql);
+  $conn->query($sql);
   echo "Tabela Cliente criado com sucesso";
 } catch(PDOException $e) {
   echo $sql . "<br>" . $e->getMessage();
 }
-$conn = null;
+
 
 ?>

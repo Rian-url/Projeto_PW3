@@ -1,3 +1,24 @@
+<?php 
+session_start();
+
+include_once("../conexao.php");
+
+if(isset($_SESSION['email'])){
+
+  $rs = $conn-> prepare("SELECT nm_usuario, nivel_acesso FROM tb_usuario where nm_email = '". $_SESSION['email']."' ");
+
+  $rs->execute();
+  $row = $rs->fetch();
+
+  // echo $_SESSION['email'] ;
+
+}
+ else {
+  echo " <script>	window.alert('Acesso não permitido'); window.location.href='../index.php'; </script>";	
+}
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
   <head>

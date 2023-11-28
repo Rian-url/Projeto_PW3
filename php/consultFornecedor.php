@@ -1,3 +1,23 @@
+<?php 
+session_start();
+
+include_once("../conexao.php");
+
+if(isset($_SESSION['email'])){
+
+  $rs = $conn-> prepare("SELECT nm_usuario, nivel_acesso FROM tb_usuario where nm_email = '". $_SESSION['email']."' ");
+
+  $rs->execute();
+  $row = $rs->fetch();
+
+  // echo $_SESSION['email'] ;
+
+}
+ else {
+  echo " <script>	window.alert('Acesso não permitido'); window.location.href='../index.php'; </script>";	
+}
+
+?>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -27,7 +47,11 @@
             <li class="nav_item"> <a href="cadUsuario.php" class="link">Usuários</a> </li>
             <li class="nav_item"> <a href="cadFuncionario.php" class="link">Funcionários</a> </li>
             <li class="nav_item"> <a href="cadFornecedor.php" class="link">Forncedores</a> </li>  
-            <li class="nav_item"> <a href="cadProduto.php" class="link">Produtos</a> </li>          
+            <li class="nav_item"> <a href="cadProduto.php" class="link">Produtos</a> </li>   
+            
+            <ul class="nav_list">
+          <li class="nav_item"> <a href="sair.php" class="link">Sair</a> </li> 
+          </ul>      
           </ul>
         </nav>
 
@@ -62,7 +86,7 @@
                                echo "<br><b>CEP: </b>".$row['cep_fornecedor'];
                                echo "<br><b>Celular: </b>".$row['tl_fornecedor'];
                                echo "<br><b>Email: </b>".$row['nm_email'];
-                               echo " <br/> <button type='button' class='btn btn-danger' onclick='javascript:location.href =`excluirFornecedor.php?id=" . $cd . "`'>Deletar</button>";
+                               if ($nvl_acesso == 1 ) echo "<button type='button' class='btn btn-danger' onclick='javascript:location.href =`excluirUsuario.php?id=" . $cd . "`'>Deletar</button>"; 
                                echo "<hr>";
                              }
                            } 

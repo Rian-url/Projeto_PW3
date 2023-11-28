@@ -1,3 +1,4 @@
+
 <?php 
 session_start();
 
@@ -9,7 +10,7 @@ if(isset($_SESSION['email'])){
 
   $rs->execute();
   $row = $rs->fetch();
-  echo $row['nivel_acesso'];
+  // echo $row['nivel_acesso'];
 
 
 }
@@ -51,7 +52,10 @@ if(isset($_SESSION['email'])){
             <li class="nav_item"> <a href="cadUsuario.php" class="link">Usuários</a> </li>
             <li class="nav_item"> <a href="cadFuncionario.php" class="link">Funcionários</a> </li>
             <li class="nav_item"> <a href="cadFornecedor.php" class="link">Forncedores</a> </li>  
-            <li class="nav_item"> <a href="cadProduto.php" class="link">Produtos</a> </li>          
+            <li class="nav_item"> <a href="cadProduto.php" class="link">Produtos</a> </li>   
+            <ul class="nav_list">
+          <li class="nav_item"> <a href="sair.php" class="link">Sair</a> </li> 
+          </ul>       
           </ul>
         </nav>
     
@@ -91,10 +95,8 @@ if(isset($_SESSION['email'])){
     <div class="btns">
     <input type="reset" value="Limpar" class="btn1"> <br>
     <input type="submit" value="Cadastrar" class="btn2"> <br>
-    <?php
-       if($row['nivel_acesso'] == 1 ) {?>
     <a href="consultUsuario.php"><input type="button" value="Consultar" class="btn3"></a>
-    <?php } ?>
+
     </div>
    </form>
     
@@ -141,7 +143,7 @@ if(!empty($_POST)) {
   
   $stmt->execute();
 
-  echo "<script>alert('Cadastrado no banco de dados com sucesso!');</script>";
+  echo "<script>alert('Cadastrado no banco de dados com sucesso!'); window.location.href='consultCliente.php'; </script>";
 
 } catch(PDOException $e) {
   echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();

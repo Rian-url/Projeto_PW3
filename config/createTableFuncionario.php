@@ -1,16 +1,8 @@
 <?php
-$servername = "localhost:3306";
-$username = "root";
-
-// $password = "root";
-
-// meu servidor
-$password = "tubas1234";
-$dbname = "bd_sistema";
+include("../conexao.php");
 
 try{
-$conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password); 
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
   
   $sql = "create table tb_funcionario(
   cd_funcionario int PRIMARY KEY AUTO_INCREMENT,
@@ -28,7 +20,7 @@ $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
   nm_email varchar (40) not null,
   img_funcionario varchar (100) );";
 
-  $conn->exec($sql);
+  $conn->query($sql);
   echo "Tabela Funcionario criada com sucesso";
 } catch(PDOException $e) {
   echo $sql . "<br>" . $e->getMessage();
