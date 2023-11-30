@@ -79,11 +79,12 @@ if(isset($_SESSION['email'])){
                 {	   
                   $select = $conn->prepare('SELECT * FROM tb_cliente');
                   $select->execute();
+
+                  $nvl_acesso = $row['nivel_acesso'];
                   
                   while($row = $select->fetch()) 
                   {		
                     $cd = $row['cd_cliente'];
-                    $teste = "Cadastrado no banco de dados com sucesso!";
 
                     echo "<p>";
                     echo "<br><img src='".$row['img_cliente']."' width=80px>";

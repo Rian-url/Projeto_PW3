@@ -75,11 +75,18 @@ if(isset($_SESSION['email'])){
                {	   
                  $select = $conn->prepare('SELECT * FROM tb_usuario');
                  $select->execute();
+
+                //  $nvl_acesso = $conn-> prepare("SELECT nm_usuario, nivel_acesso FROM tb_usuario where nm_email = '". $_SESSION['email']."' ");
+
+                //  $nvl_acesso->execute();
+                //  $row = $nvl_acesso->fetch();
+               
+                 
+                 $nvl_acesso = $row['nivel_acesso'];
                  
                  while($row = $select->fetch()) 
                  {		
-                   $nvl_acesso = $row['nivel_acesso'];
-                  //  == 0 ? "Administrador" : "Desenvolvedor" ;
+ 
                    $cd = $row['cd_usuario'];
                    echo "<p>";
                    echo "<br><img src='".$row['img_usuario']."' width=80px>";

@@ -114,6 +114,11 @@ if(!empty($_POST)) {
    $cargo = intval($_POST['cargo']);
    $email = $_POST['email'];
    $senha = $_POST['senha'];
+   
+   $options = ['cost' => 8];
+
+   $hash = password_hash($senha,  PASSWORD_BCRYPT, $options); //a hash será diferente a cada execução
+  
 
   $imagem = $_FILES['imageUser'];
   $dir = "imgs/usuarios/";
@@ -143,7 +148,7 @@ if(!empty($_POST)) {
   
   $stmt->execute();
 
-  echo "<script>alert('Cadastrado no banco de dados com sucesso!'); window.location.href='consultCliente.php'; </script>";
+  echo "<script>alert('Cadastrado no banco de dados com sucesso!'); window.location.href='consultUsuario.php'; </script>";
 
 } catch(PDOException $e) {
   echo "Erro ao cadastrar no banco de dados: " . $e->getMessage();

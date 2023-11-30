@@ -73,6 +73,8 @@ if(isset($_SESSION['email'])){
                            {	   
                              $select = $conn->prepare('SELECT * FROM tb_fornecedor');
                              $select->execute();
+
+                             $nvl_acesso = $row['nivel_acesso'];
                              
                              while($row = $select->fetch()) 
                              {		
